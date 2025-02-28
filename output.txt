@@ -1,0 +1,63 @@
+Thread 1: Transferring 100 from Account1 to Account2
+Thread ThreadId(2), Transferred 100 successfully!
+Thread 2: Transferring 200 from Account2 to Account1
+Thread ThreadId(3), Transferred 200 successfully!
+Final balances -> Account1: 1100, Account2: 900
+Pausing for 1 second...
+Resuming execution.
+Thread 1: Transferring 100 from Account1 to Account2
+Thread ThreadId(4), Transferred 100 successfully!
+Thread 2: Transferring 200 from Account2 to Account1
+Thread ThreadId(5), Transferred 200 successfully!
+Final balances -> Account1: 1200, Account2: 800
+Pausing for 1 second...
+Resuming execution.
+Thread 1: Transferring 100 from Account1 to Account2
+Thread ThreadId(6), Transferred 100 successfully!
+Thread 2: Transferring 200 from Account2 to Account1
+Thread ThreadId(7), Transferred 200 successfully!
+Final balances -> Account1: 1300, Account2: 700
+Pausing for 1 second...
+Resuming execution.
+Thread 1: Transferring 100 from Account1 to Account2
+Thread ThreadId(8), Transferred 100 successfully!
+Thread 2: Transferring 200 from Account2 to Account1
+Thread ThreadId(9), Transferred 200 successfully!
+Final balances -> Account1: 1400, Account2: 600
+Pausing for 1 second...
+Resuming execution.
+Thread 1: Transferring 100 from Account1 to Account2
+Thread ThreadId(10), Transferred 100 successfully!
+Thread 2: Transferring 200 from Account2 to Account1
+Thread ThreadId(11), Transferred 200 successfully!
+Final balances -> Account1: 1500, Account2: 500
+Pausing for 1 second...
+Resuming execution.
+Thread 1: Transferring 100 from Account1 to Account2
+Thread 2: Transferring 200 from Account2 to Account1
+Thread ThreadId(12), Transferred 100 successfully!
+Thread ThreadId(13), Transferred 200 successfully!
+Final balances -> Account1: 1600, Account2: 400
+Pausing for 1 second...
+Resuming execution.
+Thread 1: Transferring 100 from Account1 to Account2
+Thread ThreadId(14), Transferred 100 successfully!
+Thread 2: Transferring 200 from Account2 to Account1
+Thread ThreadId(15), Transferred 200 successfully!
+Final balances -> Account1: 1700, Account2: 300
+Pausing for 1 second...
+Resuming execution.
+Thread 1: Transferring 100 from Account1 to Account2
+Thread ThreadId(16), Transferred 100 successfully!
+Thread 2: Transferring 200 from Account2 to Account1
+Thread ThreadId(17), Transferred 200 successfully!
+Final balances -> Account1: 1800, Account2: 200
+Pausing for 1 second...
+Resuming execution.
+Thread 1: Transferring 100 from Account1 to Account2
+Thread ThreadId(18), Transferred 100 successfully!
+Thread 2: Transferring 200 from Account2 to Account1
+Thread ThreadId(19), Transferred 200 successfully!
+Final balances -> Account1: 1900, Account2: 100
+Pausing for 1 second...
+Resuming execution.

@@ -90,7 +90,7 @@ fn main() {
         balance: 1000,
     }));
     //loop 10 times
-    for n in 1..10 {
+    for _ in 1..10 {
         // Spawn a thread that tries to transfer money from account1 to account2.
         let acc1 = Arc::clone(&account1);
         let acc2 = Arc::clone(&account2);
