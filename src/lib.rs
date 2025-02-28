@@ -12,7 +12,8 @@ pub struct Account {
 // A  function that attempts to transfer funds between two accounts.
 // We us try_lock here because it is a non blocking lock function which is prone to deadlocks.
 pub fn transfer(from: &Arc<Mutex<Account>>, to: &Arc<Mutex<Account>>, amount: i32) -> bool {
-    // Start the timer for detecting deadlock.
+    let thread_id = thread::current().id(); //logging for debuggingx
+                                            // Start the timer for detecting deadlock.
     let start = Instant::now();
     loop {
         //Ordering our accounts to prevent deadlocks
@@ -21,7 +22,7 @@ pub fn transfer(from: &Arc<Mutex<Account>>, to: &Arc<Mutex<Account>>, amount: i3
         let to_id = to.lock().unwrap().id;
 
         //this condition ensures that no two threads will have each others locks
-        //by locking the smaller id account frist every time all the threads will follow the same order
+        //by locking the smaller id account frist every time all the threads will follow the same pattern
         let (first, second) = if from_id < to_id {
             (from, to)
         } else {
@@ -38,17 +39,29 @@ pub fn transfer(from: &Arc<Mutex<Account>>, to: &Arc<Mutex<Account>>, amount: i3
                     if first_guard.balance >= amount {
                         first_guard.balance -= amount;
                         second_guard.balance += amount;
-                        println!("Transferred {} successfully!", amount);
+                        println!(
+                            "Thread {:?}, Transferred {} successfully!",
+                            thread_id, amount
+                        );
                     } else {
-                        println!("Insufficient funds for transfer.");
+                        println!(
+                            "Thread {:?} failed, Insufficient funds for transfer.",
+                            thread_id
+                        );
                     }
                 } else {
                     if second_guard.balance >= amount {
                         second_guard.balance -= amount;
                         first_guard.balance += amount;
-                        println!("Transferred {} successfully!", amount);
+                        println!(
+                            "Thread {:?}, Transferred {} successfully!",
+                            thread_id, amount
+                        );
                     } else {
-                        println!("Insufficient funds for transfer.");
+                        println!(
+                            "Thread {:?} failed, Insufficient funds for transfer.",
+                            thread_id
+                        );
                     }
                 }
                 return true;
@@ -76,9 +89,9 @@ fn main() {
         id: 2,
         balance: 1000,
     }));
-
+    //loop 10 times
     for n in 1..10 {
-        // Spawn a thread that attempts to transfer money from account1 to account2.
+        // Spawn a thread that tries to transfer money from account1 to account2.
         let acc1 = Arc::clone(&account1);
         let acc2 = Arc::clone(&account2);
         let thread1 = thread::spawn(move || {
@@ -88,7 +101,7 @@ fn main() {
             }
         });
 
-        // Spawn another thread that attempts to transfer money from account2 to account1.
+        // Spawn another thread that tries to transfer money from account2 to account1.
         let acc1 = Arc::clone(&account1);
         let acc2 = Arc::clone(&account2);
         let thread2 = thread::spawn(move || {
@@ -102,14 +115,15 @@ fn main() {
         thread1.join().unwrap();
         thread2.join().unwrap();
 
-        // Display final balances in both accounts.
+        // Display final balances.
         println!(
             "Final balances -> Account1: {}, Account2: {}",
             account1.lock().unwrap().balance,
             account2.lock().unwrap().balance
         );
+        //repeating after 10 milis
         println!("Pausing for 1 second...");
-        thread::sleep(Duration::from_secs(1));
+        thread::sleep(Duration::from_millis(10));
         println!("Resuming execution.");
     }
 }
