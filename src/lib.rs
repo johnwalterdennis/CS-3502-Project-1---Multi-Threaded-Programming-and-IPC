@@ -3,22 +3,25 @@ use std::thread;
 use std::time::Duration;
 use std::time::Instant;
 
-struct Account {
-    id: i32,
-    balance: i32,
+//Our simple bank account struct
+pub struct Account {
+    pub id: i32,
+    pub balance: i32,
 }
 
-// A helper function that attempts to transfer funds between two accounts.
-// It uses try_lock in a loop with a timeout to detect potential deadlock.
-fn transfer(from: &Arc<Mutex<Account>>, to: &Arc<Mutex<Account>>, amount: i32) -> bool {
+// A  function that attempts to transfer funds between two accounts.
+// We us try_lock here because it is a non blocking lock function which is prone to deadlocks.
+pub fn transfer(from: &Arc<Mutex<Account>>, to: &Arc<Mutex<Account>>, amount: i32) -> bool {
     // Start the timer for detecting deadlock.
     let start = Instant::now();
     loop {
-        // Attempt to lock the "from" account without blocking.
+        //Ordering our accounts to prevent deadlocks
         let from_id = from.lock().unwrap().id;
-        // Attempt to lock the "to" account without blocking.
+
         let to_id = to.lock().unwrap().id;
 
+        //this condition ensures that no two threads will have each others locks
+        //by locking the smaller id account frist every time all the threads will follow the same order
         let (first, second) = if from_id < to_id {
             (from, to)
         } else {
@@ -29,7 +32,7 @@ fn transfer(from: &Arc<Mutex<Account>>, to: &Arc<Mutex<Account>>, amount: i32) -
         let second_lock = second.try_lock();
 
         match (first_lock, second_lock) {
-            // If both locks are acquired, perform the transfer.
+            // If both locks are acquired, perform the transfer. Also checking to see if there is enough balance to cover the transfer
             (Ok(mut first_guard), Ok(mut second_guard)) => {
                 if first_guard.id == from_id {
                     if first_guard.balance >= amount {
@@ -53,11 +56,10 @@ fn transfer(from: &Arc<Mutex<Account>>, to: &Arc<Mutex<Account>>, amount: i32) -
             // If either lock fails, check if we have waited too long.
             _ => {
                 if start.elapsed() > Duration::from_secs(1) {
-                    // Deadlock detected after waiting 1 second.
                     println!("Deadlock detected! Aborting transfer of {}.", amount);
                     return false;
                 }
-                // Pause briefly and try again.
+                // Pause and try again.
                 thread::sleep(Duration::from_millis(10));
             }
         }
@@ -75,7 +77,7 @@ fn main() {
         balance: 1000,
     }));
 
-    loop {
+    for n in 1..10 {
         // Spawn a thread that attempts to transfer money from account1 to account2.
         let acc1 = Arc::clone(&account1);
         let acc2 = Arc::clone(&account2);
@@ -111,25 +113,3 @@ fn main() {
         println!("Resuming execution.");
     }
 }
-
-// fn main() {
-//     let account = Arc::new(Mutex::new(1000)); // Starting with a balance of 1000
-//     let mut handles = vec![];
-
-//     for i in 0..5 {
-//         let account_clone = Arc::clone(&account);
-//         let handle = thread::spawn(move || {
-//             let mut balance = account_clone.lock().unwrap();
-//             println!("Thread {} acquired the lock.", i);
-//             *balance += 1000;
-//             println!("Thread {} deposited 1000, New balance is {}", i, *balance);
-//         });
-//         handles.push(handle);
-//     }
-
-//     for handle in handles {
-//         handle.join().unwrap();
-//     }
-
-//     println!("Final account balance: {}", *account.lock().unwrap());
-// }
