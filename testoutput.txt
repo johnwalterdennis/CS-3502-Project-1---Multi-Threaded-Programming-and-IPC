@@ -1,0 +1,31 @@
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 3 tests
+test test_broken_pipe ... ok
+test test_data_integrity ... FAILED
+test test_large_data_performance ... ok
+
+failures:
+
+---- test_data_integrity stdout ----
+Expected: Consumer: Processed the following text to uppercase: {        "USER": {            "ID": 12345,            "NAME": "BRYAN USER",            "EMAIL": "BRYAN@EXAMPLE.COM"            }        }Producer: consumer process exited successfully
+Actual: [Parent] Child process exited successfully
+thread 'test_data_integrity' panicked at tests/mytest.rs:28:5:
+assertion failed: result.contains(&json_doc_uppercase1)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    test_data_integrity
+
+test result: FAILED. 2 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+

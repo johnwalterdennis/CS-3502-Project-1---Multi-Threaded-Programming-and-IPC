@@ -1,0 +1,4 @@
+Consumer: Processed the following text to uppercase: HELLO WORLD!
+THIS IS A TEST.
+
+[Parent] Child process exited successfully
