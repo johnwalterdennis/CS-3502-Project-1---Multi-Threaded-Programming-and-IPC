@@ -64,6 +64,7 @@ pub fn run_ipc_pipe(
             }
 
             for msg in &input_messages {
+                println!("Producer sent the following messages: {}\n", msg);
                 if write(fd_write, msg.as_bytes()).is_err() {
                     return Err("Parent: Failed to write data".to_string());
                 }
