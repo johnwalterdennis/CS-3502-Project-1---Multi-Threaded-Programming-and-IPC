@@ -23,7 +23,7 @@ mod tests {
 
         let mut handles = vec![];
 
-        //100 threads, each doing 100 transfers
+        //50 threads, each doing 100 transfers
         for _ in 0..50 {
             let acc1_clone = Arc::clone(&account1);
             let acc2_clone = Arc::clone(&account2);
