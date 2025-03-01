@@ -1,9 +1,10 @@
 # CS-3502-Project-1---Multi-Threaded-Programming-and-IPC
 
 This project is divided into parts.
-Phase 1 which is a set of programs and tests demonstrating demonstrating your understanding of threading concepts. By implementing the creation of safe
+Phase 1 which is a set of programs and tests demonstrating your understanding of threading concepts. By implementing the creation of safe
 and synchronizationable threads, safe resource sharing with mutexes, deadlock detection, recovery and prevention practices in rust.
-Phase 1 uses the example of a hypotethical Banking system with threads concurrently making transfers between accounts.
+Phase 1 uses the example of a hypotethical Banking system with threads concurrently making transfers between accounts. Spawning several threads and transferring a simple amount a series of times.
+Test cases involve testing for concurrent transfers, deadlock prevention and stress testing by spawing 100 active threads.
 
 ## Installation
 
